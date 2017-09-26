@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polygon</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <!-- <script type="text/javascript" src="bulacan.json"></script>
+    <script type="text/javascript" src="laguna.json"></script>
+    <script type="text/javascript" src="cebu.json"></script> -->
+
+
+
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+      // This example creates a simple polygon representing the Bermuda Triangle.
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 6,
+          center: {lat: 12.8797, lng: 121.7740}, //ABRA: {lat: 120.552, lng: 17.735} || ORIG: {lat: 24.886, lng: -70.268}
+          mapTypeId: 'roadmap'
+        });
+
+
+        // fetch('https://raw.githubusercontent.com/khellytaguinod/googleMapProject/master/provinces.json')
+           fetch('https://raw.githubusercontent.com/khellytaguinod/googleMapsUpdated/master/provincesList.json')
+          .then(response => response.json())
+          .then(provinces => {
+            // Here's a list of repos!
+            console.log(provinces )
+
+            provinces.forEach(fetchProvinceData)
+          });
+
+
+          let fetchProvinceData = function(provinces) {
+          // fetch(`https://raw.githubusercontent.com/khellytaguinod/googleMapProject/master/generatedProvinces/${provinces}.json`)
+          fetch(`https://raw.githubusercontent.com/khellytaguinod/googleMapsUpdated/master/provincesSimplified/output/20k/${provinces}.json`)
+
+          // fetch(`https://raw.githubusercontent.com/khellytaguinod/googleMapSimplified/master/output/1000/abra.json`)
+
+
+          .then(response => response.json())
+          .then(shapes => {
+
+
+             shapes.forEach( element => {
+
+              let randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+
+
+              let shape = new google.maps.Polygon({
+              paths: shapes,
+              strokeColor: `${randomColor}`,
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: `${randomColor}`,
+              fillOpacity: 0.35
+              });
+              
+              shape.setMap(map); 
+            })
+
+
+          });
+        }
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl32dSXGt7MYeJnkofk4mARVT4VUF5Poo&callback=initMap">
+    </script>
+  </body>
+</html>
