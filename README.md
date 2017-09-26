@@ -20,5 +20,6 @@ from the provincesSimplified folder will generate the simplified coordintes that
 
 Created different kinds of html depending on how high the tolerance was set to visualize at different threshold values from the coordinates.
 
-How to Run
+How to Run:
+
 **run program using Node.js**
